@@ -1,6 +1,6 @@
 # Indigo Control Page Builder
 
-**Repository**: https://github.com/simons-plugins/indigo-control-pages
+**Repository**: https://github.com/simons-plugins/indigo-control-pages-skill
 **Version**: 1.0.0
 **Slash command**: `/control-page`
 
@@ -80,6 +80,21 @@ docs/
 tools/
 └── create_clipping.py             # .textClipping generator
 ```
+
+## Version Check
+
+**On every skill load**, check for updates:
+
+1. Read the local version from the `VERSION` file in this skill's directory
+2. Fetch the remote version: `https://raw.githubusercontent.com/simons-plugins/indigo-control-pages-skill/master/VERSION`
+3. Compare: if remote version is newer than local, display:
+
+```
+Update available: Control Page Builder v{local} → v{remote}
+Run: cd {skill_directory} && git pull
+```
+
+4. If fetch fails (no network, etc.), skip silently — do not block the workflow.
 
 ## Best Practices
 
