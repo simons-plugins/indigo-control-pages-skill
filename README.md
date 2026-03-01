@@ -20,7 +20,7 @@ This is a Claude Code skill that provides a guided builder for Indigo home autom
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
 cd .claude/skills
-git clone https://github.com/simons-plugins/indigo-control-pages.git control-pages
+git clone https://github.com/simons-plugins/indigo-control-pages-skill.git control-pages
 ```
 
 ### Option 2: Add as submodule
@@ -28,14 +28,14 @@ git clone https://github.com/simons-plugins/indigo-control-pages.git control-pag
 ```bash
 cd /path/to/your/indigo/project
 mkdir -p .claude/skills
-git submodule add https://github.com/simons-plugins/indigo-control-pages.git .claude/skills/control-pages
+git submodule add https://github.com/simons-plugins/indigo-control-pages-skill.git .claude/skills/control-pages
 ```
 
 ### Option 3: Symlink (for multiple projects)
 
 ```bash
 # Clone once
-git clone https://github.com/simons-plugins/indigo-control-pages.git ~/indigo-control-pages
+git clone https://github.com/simons-plugins/indigo-control-pages-skill.git ~/indigo-control-pages
 
 # Symlink in each project
 cd /path/to/your/indigo/project
@@ -88,8 +88,8 @@ All documentation is organized in the `docs/` directory:
 
 We welcome contributions from the Indigo developer community!
 
-- Report issues: https://github.com/simons-plugins/indigo-control-pages/issues
-- Submit PRs: https://github.com/simons-plugins/indigo-control-pages/pulls
+- Report issues: https://github.com/simons-plugins/indigo-control-pages-skill/issues
+- Submit PRs: https://github.com/simons-plugins/indigo-control-pages-skill/pulls
 
 ## License
 

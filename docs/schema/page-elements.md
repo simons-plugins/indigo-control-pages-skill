@@ -2,6 +2,15 @@
 
 Complete reference for `<PageElem>` elements within a Control Page.
 
+> **CRITICAL CORRECTIONS (verified against real Indigo databases and working .textClipping exports):**
+> - Boolean type is `type="bool"` NOT `type="boolean"`
+> - Image filenames MUST include `.png` extension (e.g., `Dimmable Light 2x.png`)
+> - PageElem `ObjVers` is `9` NOT `5`
+> - `ID` on PageElem is optional (Indigo assigns IDs on import)
+> - Device actions should include `<DeviceActionValue type="integer">0</DeviceActionValue>`
+> - No-op actions use `<Class type="integer">0</Class>` inside ActionSteps
+> - `Size` of `0 0` is valid — Indigo auto-sizes from the image
+
 ## PageElem Structure
 
 Every element on a control page is a `<PageElem type="dict">` inside the `<PageElemList>`.
@@ -10,39 +19,33 @@ Every element on a control page is a `<PageElem type="dict">` inside the `<PageE
 <PageElem type="dict">
   <!-- Core -->
   <ControlType type="integer">1</ControlType>
-  <ID type="integer">UNIQUE_ID</ID>
-  <ObjVers type="integer">5</ObjVers>
+  <ObjVers type="integer">9</ObjVers>
   <Position type="string">100 200</Position>
   <Size type="string">76 76</Size>
 
   <!-- Image -->
-  <ImageFileName type="string">Dimmable Light 2x</ImageFileName>
-  <ShowStateImage type="boolean">true</ShowStateImage>
-  <ShowStateText type="boolean">true</ShowStateText>
+  <ImageFileName type="string">Dimmable Light 2x.png</ImageFileName>
+  <ShowStateImage type="bool">true</ShowStateImage>
+  <ShowStateText type="bool">false</ShowStateText>
 
   <!-- Caption (label) -->
   <CaptionName type="string">Label Text</CaptionName>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
   <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionWraps type="boolean">true</CaptionWraps>
-  <CaptionCurWidth type="integer">150</CaptionCurWidth>
-  <CaptionCurHeight type="integer">25</CaptionCurHeight>
+  <CaptionPointSize type="integer">14</CaptionPointSize>
+  <CaptionWraps type="bool">false</CaptionWraps>
+  <CaptionCurWidth type="integer">90</CaptionCurWidth>
+  <CaptionCurHeight type="integer">18</CaptionCurHeight>
 
-  <!-- State text -->
-  <StateTextFontColor type="string">DB DB DB</StateTextFontColor>
-  <StateTextFontType type="integer">201</StateTextFontType>
+  <!-- State text (only when ShowStateText is true) -->
   <StateTextPointSize type="integer">20</StateTextPointSize>
-  <StateTextAlignment type="integer">1</StateTextAlignment>
 
   <!-- Target device -->
   <TargetElemID type="integer">DEVICE_ID</TargetElemID>
-  <TargetElemSubKey type="string">onOffState</TargetElemSubKey>
+  <TargetElemSubKey type="string">brightnessLevel</TargetElemSubKey>
 
   <!-- Action -->
   <ActionGroup type="dict">...</ActionGroup>
-  <ClientActionType type="integer">0</ClientActionType>
+  <ClientActionType type="integer">1014</ClientActionType>
 </PageElem>
 ```
 
@@ -55,42 +58,43 @@ Every element on a control page is a `<PageElem type="dict">` inside the `<PageE
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
 | `ControlType` | integer | Yes | Element type. See enums.md |
-| `ID` | integer | Yes | Unique element ID |
-| `ObjVers` | integer | Yes | Always `5` |
+| `ObjVers` | integer | Yes | Always `9` for PageElems |
 | `Position` | string | Yes | `"X Y"` position from top-left of page |
-| `Size` | string | No | `"width height"` in pixels. Default varies by image |
+| `Size` | string | No | `"width height"` in pixels. Use `0 0` for auto-size from image |
 
 ### Image Properties
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ImageFileName` | string | `""` | Base image name without `.png` extension. State suffixes added automatically |
-| `ShowStateImage` | boolean | `false` | Show state-dependent image (e.g., on/off variant) |
-| `ShowStateText` | boolean | `false` | Show device state as text overlay on the image |
+| `ImageFileName` | string | `""` | Image name WITH `.png` extension (e.g., `Dimmable Light 2x.png`). State suffixes added automatically by Indigo |
+| `ShowStateImage` | bool | `false` | Show state-dependent image (e.g., on/off variant) |
+| `ShowStateText` | bool | `false` | Show device state as text overlay on the image |
 
-**Image state behavior**: When `ShowStateImage` is true, Indigo appends the device state to the image filename. For example, `Dimmable Light 2x` becomes `Dimmable Light 2x+on.png` when the light is on.
+**Image state behavior**: When `ShowStateImage` is true, Indigo automatically looks for state-suffixed images. For example, `Dimmable Light 2x.png` resolves to `Dimmable Light 2x+on.png` when the light is on.
 
 ### Caption Properties
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `CaptionName` | string | `""` | Label text displayed with the element |
-| `CaptionFontType` | integer | `20` | Font type. See enums.md |
-| `CaptionFontColor` | string | `"BF BF BF"` | Caption color (hex pairs) |
-| `CaptionPointSize` | integer | `20` | Font size in points |
+| `CaptionFontType` | integer | `22` | Font type (optional — omit to use Indigo defaults). See enums.md |
+| `CaptionFontColor` | string | `"FF FF FF"` | Caption color (optional — omit to use defaults) |
+| `CaptionPointSize` | integer | `14` | Font size in points |
 | `CaptionPlacement` | integer | `4` | Position relative to image. See enums.md |
-| `CaptionWraps` | boolean | `true` | Allow text wrapping |
-| `CaptionCurWidth` | integer | `150` | Caption bounding box width |
-| `CaptionCurHeight` | integer | `25` | Caption bounding box height |
+| `CaptionWraps` | bool | `false` | Allow text wrapping. Use `type="bool"` NOT `type="boolean"` |
+| `CaptionCurWidth` | integer | `90` | Caption bounding box width |
+| `CaptionCurHeight` | integer | `18` | Caption bounding box height |
+
+**Note:** `CaptionFontType` and `CaptionFontColor` are optional. Working examples from real Indigo pages often omit them, letting Indigo use its defaults.
 
 ### State Text Properties
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `StateTextFontColor` | string | `"DB DB DB"` | State text color (hex pairs) |
-| `StateTextFontType` | integer | `201` | Font for state text (201 = monospace) |
 | `StateTextPointSize` | integer | `20` | State text font size |
-| `StateTextAlignment` | integer | `1` | 0 = left, 1 = center |
+| `StateTextAlignment` | integer | `0` | 0 = left, 1 = center |
+
+**Note:** `StateTextFontColor` and `StateTextFontType` are optional. Working examples often only include `StateTextPointSize`.
 
 ### Target Properties
 
@@ -110,67 +114,69 @@ Every element on a control page is a `<PageElem type="dict">` inside the `<PageE
 
 ## Common Element Examples
 
+> **All examples below are verified against real Indigo databases and working .textClipping exports.**
+
 ### Text Label (Title)
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">FF FF FF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">Living Room</CaptionName>
-  <CaptionPlacement type="integer">5</CaptionPlacement>
-  <CaptionPointSize type="integer">22</CaptionPointSize>
-  <CaptionWraps type="boolean">true</CaptionWraps>
-  <CaptionCurWidth type="integer">300</CaptionCurWidth>
-  <CaptionCurHeight type="integer">30</CaptionCurHeight>
-  <ControlType type="integer">100</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string"></ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">37 20</Position>
-  <ShowStateImage type="boolean">false</ShowStateImage>
-  <ShowStateText type="boolean">false</ShowStateText>
-  <Size type="string">300 30</Size>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">26</CaptionCurHeight>
+	<CaptionCurWidth type="integer">100</CaptionCurWidth>
+	<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
+	<CaptionFontType type="integer">22</CaptionFontType>
+	<CaptionName type="string">Living Room</CaptionName>
+	<CaptionPlacement type="integer">5</CaptionPlacement>
+	<CaptionPointSize type="integer">22</CaptionPointSize>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ControlType type="integer">100</ControlType>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">138 20</Position>
+	<ShowStateImage type="bool">false</ShowStateImage>
+	<ShowStateText type="bool">false</ShowStateText>
+	<Size type="string">0 0</Size>
 </PageElem>
 ```
 
-### Light Toggle with State Image
+### Light Toggle with State Image and Dimmer Popup
 
-Tapping toggles the light. Shows on/off image state.
+Tapping toggles the light. Long-press opens dimmer popup.
+Source: verified against Indigo 2025.1 Sample House database.
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-      <Action type="dict">
-        <Class type="integer">1</Class>
-        <DeviceAction type="integer">6</DeviceAction>
-        <DeviceID type="integer">DEVICE_ID</DeviceID>
-        <ObjVers type="integer">14</ObjVers>
-      </Action>
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">Ceiling Light</CaptionName>
-  <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
-  <ClientActionType type="integer">1014</ClientActionType>
-  <ControlType type="integer">1</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string">Dimmable Light 2x</ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">77 80</Position>
-  <ShowStateImage type="boolean">true</ShowStateImage>
-  <ShowStateText type="boolean">false</ShowStateText>
-  <Size type="string">76 76</Size>
-  <TargetElemID type="integer">DEVICE_ID</TargetElemID>
-  <TargetElemSubKey type="string">brightnessLevel</TargetElemSubKey>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+			<Action type="dict">
+				<Class type="integer">1</Class>
+				<DeviceAction type="integer">6</DeviceAction>
+				<DeviceActionValue type="integer">0</DeviceActionValue>
+				<DeviceID type="integer">DEVICE_ID</DeviceID>
+				<ObjVers type="integer">14</ObjVers>
+			</Action>
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">18</CaptionCurHeight>
+	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionName type="string">Ceiling Light</CaptionName>
+	<CaptionPlacement type="integer">4</CaptionPlacement>
+	<CaptionPointSize type="integer">14</CaptionPointSize>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ClientActionType type="integer">1014</ClientActionType>
+	<ControlType type="integer">1</ControlType>
+	<ImageFileName type="string">Dimmable Light 2x.png</ImageFileName>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">60 80</Position>
+	<ShowStateImage type="bool">true</ShowStateImage>
+	<ShowStateText type="bool">false</ShowStateText>
+	<Size type="string">76 76</Size>
+	<TargetElemID type="integer">DEVICE_ID</TargetElemID>
+	<TargetElemSubKey type="string">brightnessLevel</TargetElemSubKey>
 </PageElem>
 ```
 
@@ -180,96 +186,97 @@ Shows current temperature. Tapping opens thermostat control popup.
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">Thermostat</CaptionName>
-  <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
-  <ClientActionType type="integer">1014</ClientActionType>
-  <ControlType type="integer">1</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string">Temperature Sensor 2x</ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">267 170</Position>
-  <ShowStateImage type="boolean">true</ShowStateImage>
-  <ShowStateText type="boolean">true</ShowStateText>
-  <Size type="string">76 76</Size>
-  <StateTextFontColor type="string">DB DB DB</StateTextFontColor>
-  <StateTextFontType type="integer">201</StateTextFontType>
-  <StateTextPointSize type="integer">20</StateTextPointSize>
-  <StateTextAlignment type="integer">1</StateTextAlignment>
-  <TargetElemID type="integer">DEVICE_ID</TargetElemID>
-  <TargetElemSubKey type="string">temperatureInputsAll</TargetElemSubKey>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+			<Action type="dict">
+				<Class type="integer">0</Class>
+				<ObjVers type="integer">14</ObjVers>
+			</Action>
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">18</CaptionCurHeight>
+	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionName type="string">Thermostat</CaptionName>
+	<CaptionPlacement type="integer">4</CaptionPlacement>
+	<CaptionPointSize type="integer">14</CaptionPointSize>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ClientActionType type="integer">1014</ClientActionType>
+	<ControlType type="integer">1</ControlType>
+	<ImageFileName type="string">Temperature Sensor 2x.png</ImageFileName>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">150 350</Position>
+	<ShowStateImage type="bool">true</ShowStateImage>
+	<ShowStateText type="bool">true</ShowStateText>
+	<Size type="string">76 76</Size>
+	<StateTextPointSize type="integer">20</StateTextPointSize>
+	<TargetElemID type="integer">DEVICE_ID</TargetElemID>
+	<TargetElemSubKey type="string">temperatureInputsAll</TargetElemSubKey>
 </PageElem>
 ```
 
-### Motion Sensor (Display Only)
+### Sensor with State Display (Display Only)
 
-Shows motion state. No action on tap.
+Shows sensor state. No action on tap. Source: verified against working Alarm .textClipping export.
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">Hall Motion</CaptionName>
-  <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
-  <ControlType type="integer">1</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string">Motion Sensor 2x</ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">77 260</Position>
-  <ShowStateImage type="boolean">true</ShowStateImage>
-  <ShowStateText type="boolean">true</ShowStateText>
-  <Size type="string">76 76</Size>
-  <StateTextFontColor type="string">DB DB DB</StateTextFontColor>
-  <StateTextFontType type="integer">201</StateTextFontType>
-  <StateTextPointSize type="integer">20</StateTextPointSize>
-  <StateTextAlignment type="integer">1</StateTextAlignment>
-  <TargetElemID type="integer">DEVICE_ID</TargetElemID>
-  <TargetElemSubKey type="string">onOffState</TargetElemSubKey>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+			<Action type="dict">
+				<Class type="integer">0</Class>
+				<ObjVers type="integer">14</ObjVers>
+			</Action>
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">13</CaptionCurHeight>
+	<CaptionCurWidth type="integer">58</CaptionCurWidth>
+	<CaptionName type="string">Front Door</CaptionName>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ControlType type="integer">1</ControlType>
+	<ImageFileName type="string">alarm_zone_led_lg+.png</ImageFileName>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">330 299</Position>
+	<ShowStateImage type="bool">true</ShowStateImage>
+	<ShowStateText type="bool">false</ShowStateText>
+	<Size type="string">48 30</Size>
+	<TargetElemID type="integer">DEVICE_ID</TargetElemID>
+	<TargetElemSubKey type="string">onOffState</TargetElemSubKey>
 </PageElem>
 ```
 
 ### Action Group Button
 
 Executes an Indigo action group when tapped.
+Source: verified against Indigo 2025.1 Sample House database.
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-      <Action type="dict">
-        <ActionGroupID type="integer">ACTION_GROUP_ID</ActionGroupID>
-        <Class type="integer">100</Class>
-        <ObjVers type="integer">14</ObjVers>
-      </Action>
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">All Lights Off</CaptionName>
-  <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
-  <ControlType type="integer">100</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string">Light Button Solid Medium 2x</ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">150 400</Position>
-  <ShowStateImage type="boolean">false</ShowStateImage>
-  <ShowStateText type="boolean">false</ShowStateText>
-  <Size type="string">76 38</Size>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+			<Action type="dict">
+				<ActionGroupID type="integer">ACTION_GROUP_ID</ActionGroupID>
+				<Class type="integer">100</Class>
+				<ObjVers type="integer">14</ObjVers>
+			</Action>
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">20</CaptionCurHeight>
+	<CaptionCurWidth type="integer">32</CaptionCurWidth>
+	<CaptionName type="string">All Off</CaptionName>
+	<CaptionPlacement type="integer">1</CaptionPlacement>
+	<CaptionPointSize type="integer">18</CaptionPointSize>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ControlType type="integer">100</ControlType>
+	<ImageFileName type="string">Light Button Solid Small.png</ImageFileName>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">150 400</Position>
+	<ShowStateImage type="bool">true</ShowStateImage>
+	<ShowStateText type="bool">false</ShowStateText>
+	<Size type="string">92 29</Size>
+	<TargetElemSubKey type="string">onOffState</TargetElemSubKey>
 </PageElem>
 ```
 
@@ -277,31 +284,32 @@ Executes an Indigo action group when tapped.
 
 ```xml
 <PageElem type="dict">
-  <ActionGroup type="dict">
-    <ActionSteps type="vector">
-      <Action type="dict">
-        <Class type="integer">1</Class>
-        <DeviceAction type="integer">6</DeviceAction>
-        <DeviceID type="integer">DEVICE_ID</DeviceID>
-        <ObjVers type="integer">14</ObjVers>
-      </Action>
-    </ActionSteps>
-    <ObjVers type="integer">2</ObjVers>
-  </ActionGroup>
-  <CaptionFontColor type="string">BF BF BF</CaptionFontColor>
-  <CaptionFontType type="integer">22</CaptionFontType>
-  <CaptionName type="string">Power Switch</CaptionName>
-  <CaptionPlacement type="integer">4</CaptionPlacement>
-  <CaptionPointSize type="integer">20</CaptionPointSize>
-  <ControlType type="integer">1</ControlType>
-  <ID type="integer">ELEM_ID</ID>
-  <ImageFileName type="string">Switch 2x</ImageFileName>
-  <ObjVers type="integer">5</ObjVers>
-  <Position type="string">77 170</Position>
-  <ShowStateImage type="boolean">true</ShowStateImage>
-  <ShowStateText type="boolean">false</ShowStateText>
-  <Size type="string">76 76</Size>
-  <TargetElemID type="integer">DEVICE_ID</TargetElemID>
-  <TargetElemSubKey type="string">onOffState</TargetElemSubKey>
+	<ActionGroup type="dict">
+		<ActionSteps type="vector">
+			<Action type="dict">
+				<Class type="integer">1</Class>
+				<DeviceAction type="integer">6</DeviceAction>
+				<DeviceActionValue type="integer">0</DeviceActionValue>
+				<DeviceID type="integer">DEVICE_ID</DeviceID>
+				<ObjVers type="integer">14</ObjVers>
+			</Action>
+		</ActionSteps>
+		<ObjVers type="integer">2</ObjVers>
+	</ActionGroup>
+	<CaptionCurHeight type="integer">18</CaptionCurHeight>
+	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionName type="string">Power Switch</CaptionName>
+	<CaptionPlacement type="integer">4</CaptionPlacement>
+	<CaptionPointSize type="integer">14</CaptionPointSize>
+	<CaptionWraps type="bool">false</CaptionWraps>
+	<ControlType type="integer">1</ControlType>
+	<ImageFileName type="string">Switch 2x.png</ImageFileName>
+	<ObjVers type="integer">9</ObjVers>
+	<Position type="string">77 170</Position>
+	<ShowStateImage type="bool">true</ShowStateImage>
+	<ShowStateText type="bool">false</ShowStateText>
+	<Size type="string">76 76</Size>
+	<TargetElemID type="integer">DEVICE_ID</TargetElemID>
+	<TargetElemSubKey type="string">onOffState</TargetElemSubKey>
 </PageElem>
 ```

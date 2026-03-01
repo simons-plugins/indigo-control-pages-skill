@@ -12,7 +12,9 @@ All device images available in `Web Assets/images/controls/devices/`.
 
 When `ShowStateImage` is true, Indigo automatically appends the device state to the base image name.
 
-**Important**: In the XML `ImageFileName` field, use the base name **without** `.png` extension and without state suffixes. Example: `Dimmable Light 2x` (not `Dimmable Light 2x.png` or `Dimmable Light 2x+on.png`).
+**CRITICAL**: In the XML `ImageFileName` field, you MUST include the `.png` extension. Example: `Dimmable Light 2x.png` (not `Dimmable Light 2x`). Without the `.png` extension, images will NOT render and only text labels will be visible.
+
+> **Correction**: Earlier versions of this documentation incorrectly stated to omit `.png`. This was wrong. Verified against Indigo 2025.1 Sample House database and working .textClipping exports — all use `.png` extension.
 
 ---
 
@@ -250,14 +252,14 @@ Quick reference for the most common choices:
 
 | Device Type | Recommended ImageFileName |
 |-------------|--------------------------|
-| Dimmer / Light | `Dimmable Light 2x` |
-| Relay / Switch | `Switch 2x` |
-| Thermostat (temp display) | `Temperature Sensor 2x` |
-| Thermostat (mode) | `Light Thermostat Mode Control 2x` |
-| Motion Sensor | `Motion Sensor 2x` |
-| Humidity Sensor | `Humidity Sensor 2x` |
-| Fan | `Fan 2x` |
-| Sprinkler | `Sprinkler 2x` |
-| Power Meter | `Power Meter 2x` |
-| Status Indicator | `Green Dot 2x` |
-| Garage Door | `Light Garage Door Control 2x` |
+| Dimmer / Light | `Dimmable Light 2x.png` |
+| Relay / Switch | `Switch 2x.png` |
+| Thermostat (temp display) | `Temperature Sensor 2x.png` |
+| Thermostat (mode) | `Light Thermostat Mode Control 2x.png` |
+| Motion Sensor | `Motion Sensor 2x.png` |
+| Humidity Sensor | `Humidity Sensor 2x.png` |
+| Fan | `Fan 2x.png` |
+| Sprinkler | `Sprinkler 2x.png` |
+| Power Meter | `Power Meter 2x.png` |
+| Status Indicator | `Green Dot 2x.png` |
+| Garage Door | `Light Garage Door Control 2x.png` |
