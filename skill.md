@@ -86,7 +86,7 @@ tools/
 **On every skill load**, check for updates:
 
 1. Read the local version from the `VERSION` file in this skill's directory
-2. Fetch the remote version: `https://raw.githubusercontent.com/simons-plugins/indigo-control-pages-skill/master/VERSION`
+2. Fetch the remote version: `https://raw.githubusercontent.com/simons-plugins/indigo-control-pages-skill/main/VERSION`
 3. Compare: if remote version is newer than local, display:
 
 ```
