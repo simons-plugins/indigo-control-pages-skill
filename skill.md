@@ -24,6 +24,7 @@ with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 | WIREFRAME (designing layout) | `docs/layouts/templates.md`, `docs/layouts/sizing.md` |
 | BUILD (generating XML) | `docs/schema/control-page.md`, `docs/schema/page-elements.md`, `docs/schema/actions.md`, `docs/schema/enums.md` |
 | BUILD (choosing images) | `docs/images/device-images.md` |
+| BUILD (external/camera images) | `docs/images/external-images.md` |
 | EXPORT (creating file) | `docs/export/clipping-export.md` |
 
 ### Query Routing
@@ -40,6 +41,8 @@ with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 | "What are the enum values?" | `docs/schema/enums.md` |
 | "Show me static images" | `docs/images/static-images.md` |
 | "Variable images?" | `docs/images/variable-images.md` |
+| "External images?" / "Camera feed" / "Auto-refresh image" | `docs/images/external-images.md` |
+| "Plugin actions?" / "Sonos controls" | `docs/schema/actions.md` (Class 999) |
 
 ## Workflow Overview
 
@@ -70,7 +73,8 @@ docs/
 ├── images/
 │   ├── device-images.md           # Device state images catalog
 │   ├── static-images.md           # Buttons, tiles, arrows
-│   └── variable-images.md         # Variable indicators
+│   ├── variable-images.md         # Variable indicators
+│   └── external-images.md         # External file:/// images with auto-refresh
 ├── layouts/
 │   ├── templates.md               # Pre-built room templates
 │   └── sizing.md                  # Screen sizes, spacing, grid

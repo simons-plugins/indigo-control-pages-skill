@@ -110,13 +110,13 @@ Controls sprinkler devices.
 
 ### Class 3: Thermostat Control
 
-Controls thermostat devices.
+Controls thermostat devices. Verified against working Heating .textClipping export.
 
 ```xml
 <Action type="dict">
   <Class type="integer">3</Class>
-  <DeviceID type="integer">DEVICE_ID</DeviceID>
-  <HVACAction type="integer">ACTION</HVACAction>
+  <DeviceID type="integer">1351833195</DeviceID>
+  <HVACAction type="integer">7</HVACAction>
   <ObjVers type="integer">14</ObjVers>
 </Action>
 ```
@@ -124,7 +124,7 @@ Controls thermostat devices.
 | Property | Type | Description |
 |----------|------|-------------|
 | `DeviceID` | integer | Thermostat device ID |
-| `HVACAction` | integer | HVAC action type |
+| `HVACAction` | integer | HVAC action type. `7` observed in working examples |
 | `HVACActionValue` | string | Optional. Temperature or mode value |
 
 ### Class 7: Speed Control
@@ -204,25 +204,26 @@ Sets or modifies an Indigo variable.
 
 ### Class 999: Plugin Action
 
-Executes a plugin-defined action.
+Executes a plugin-defined action. Verified against working Sonos .textClipping export.
 
 ```xml
 <Action type="dict">
   <Class type="integer">999</Class>
-  <MetaProps type="dict">
-    <!-- plugin-specific properties -->
-  </MetaProps>
+  <DeviceID type="integer">494584985</DeviceID>
   <ObjVers type="integer">14</ObjVers>
-  <PluginID type="string">com.example.plugin</PluginID>
-  <TypeIdPlugin type="string">actionTypeId</TypeIdPlugin>
+  <PluginID type="string">com.ssi.indigoplugin.Sonos</PluginID>
+  <TypeIdPlugin type="string">actionTogglePlay</TypeIdPlugin>
+  <TypeLabelPlugin type="string">Sonos: Toggle Play</TypeLabelPlugin>
 </Action>
 ```
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `PluginID` | string | Plugin bundle identifier |
-| `TypeIdPlugin` | string | Plugin action type ID |
-| `MetaProps` | dict | Plugin-specific action properties |
+| `DeviceID` | integer | Target device ID |
+| `PluginID` | string | Plugin bundle identifier (e.g., `com.ssi.indigoplugin.Sonos`) |
+| `TypeIdPlugin` | string | Plugin action type ID (e.g., `actionTogglePlay`, `actionStop`, `actionNext`, `actionPrevious`, `actionVolumeUp`, `actionVolumeDown`) |
+| `TypeLabelPlugin` | string | Human-readable action label (e.g., `Sonos: Toggle Play`) |
+| `MetaProps` | dict | Optional. Plugin-specific action properties |
 
 ---
 
