@@ -23,8 +23,11 @@ Where the caption text appears relative to the image.
 |-------|----------|
 | 0 | Top-left |
 | 1 | Bottom-left |
-| 4 | Below image (most common for icon labels) |
+| 4 | Left of icon |
 | 5 | Standalone / above (used for titles and text-only elements) |
+| *(omitted)* | Below icon (Indigo default — best for grid layouts) |
+
+> **Important:** Omitting `CaptionPlacement` entirely gives labels below the icon, which is the most common layout for device controls in grid arrangements. Value `4` places labels to the LEFT of the icon, not below.
 
 ## FontType
 

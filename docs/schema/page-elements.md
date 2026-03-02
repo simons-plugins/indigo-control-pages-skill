@@ -82,14 +82,14 @@ Every element on a control page is a `<PageElem type="dict">` inside the `<PageE
 |----------|------|---------|-------------|
 | `CaptionName` | string | `""` | Label text displayed with the element |
 | `CaptionFontType` | integer | `22` | Font type (optional — omit to use Indigo defaults). See enums.md |
-| `CaptionFontColor` | string | `"FF FF FF"` | Caption color (optional — omit to use defaults) |
+| `CaptionFontColor` | string | — | Caption color as `"RR GG BB"` hex. **Must be set explicitly** on dark backgrounds (use `FF FF FF`). Defaults to black if omitted |
 | `CaptionPointSize` | integer | `14` | Font size in points |
-| `CaptionPlacement` | integer | `4` | Position relative to image. See enums.md |
+| `CaptionPlacement` | integer | *(omit)* | Position relative to image. **Omit for below-icon labels** (default). `4` = left of icon, `5` = standalone/above. See enums.md |
 | `CaptionWraps` | bool | `false` | Allow text wrapping. Use `type="bool"` NOT `type="boolean"` |
 | `CaptionCurWidth` | integer | `90` | Caption bounding box width |
 | `CaptionCurHeight` | integer | `18` | Caption bounding box height |
 
-**Note:** `CaptionFontType` and `CaptionFontColor` are optional. Working examples from real Indigo pages often omit them, letting Indigo use its defaults.
+**Note:** `CaptionFontType` is optional. However, `CaptionFontColor` **must be set explicitly** on dark background pages — the default is black, which is invisible on dark backgrounds. Use `FF FF FF` for white text.
 
 ### State Text Properties
 
@@ -167,8 +167,8 @@ Source: verified against Indigo 2025.1 Sample House database.
 	</ActionGroup>
 	<CaptionCurHeight type="integer">18</CaptionCurHeight>
 	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
 	<CaptionName type="string">Ceiling Light</CaptionName>
-	<CaptionPlacement type="integer">4</CaptionPlacement>
 	<CaptionPointSize type="integer">14</CaptionPointSize>
 	<CaptionWraps type="bool">false</CaptionWraps>
 	<ClientActionType type="integer">1014</ClientActionType>
@@ -201,8 +201,8 @@ Shows current temperature. Tapping opens thermostat control popup.
 	</ActionGroup>
 	<CaptionCurHeight type="integer">18</CaptionCurHeight>
 	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
 	<CaptionName type="string">Thermostat</CaptionName>
-	<CaptionPlacement type="integer">4</CaptionPlacement>
 	<CaptionPointSize type="integer">14</CaptionPointSize>
 	<CaptionWraps type="bool">false</CaptionWraps>
 	<ClientActionType type="integer">1014</ClientActionType>
@@ -236,6 +236,7 @@ Shows sensor state. No action on tap. Source: verified against working Alarm .te
 	</ActionGroup>
 	<CaptionCurHeight type="integer">13</CaptionCurHeight>
 	<CaptionCurWidth type="integer">58</CaptionCurWidth>
+	<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
 	<CaptionName type="string">Front Door</CaptionName>
 	<CaptionWraps type="bool">false</CaptionWraps>
 	<ControlType type="integer">1</ControlType>
@@ -302,8 +303,8 @@ Source: verified against Indigo 2025.1 Sample House database.
 	</ActionGroup>
 	<CaptionCurHeight type="integer">18</CaptionCurHeight>
 	<CaptionCurWidth type="integer">90</CaptionCurWidth>
+	<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
 	<CaptionName type="string">Power Switch</CaptionName>
-	<CaptionPlacement type="integer">4</CaptionPlacement>
 	<CaptionPointSize type="integer">14</CaptionPointSize>
 	<CaptionWraps type="bool">false</CaptionWraps>
 	<ControlType type="integer">1</ControlType>

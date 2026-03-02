@@ -143,8 +143,8 @@ A minimal control page with one light toggle (verified format):
 			</ActionGroup>
 			<CaptionCurHeight type="integer">18</CaptionCurHeight>
 			<CaptionCurWidth type="integer">90</CaptionCurWidth>
+			<CaptionFontColor type="string">FF FF FF</CaptionFontColor>
 			<CaptionName type="string">Ceiling Light</CaptionName>
-			<CaptionPlacement type="integer">4</CaptionPlacement>
 			<CaptionPointSize type="integer">14</CaptionPointSize>
 			<CaptionWraps type="bool">false</CaptionWraps>
 			<ClientActionType type="integer">1014</ClientActionType>
