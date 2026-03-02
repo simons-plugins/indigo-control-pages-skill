@@ -38,9 +38,10 @@ Multiple pages can be included in a single list for batch import.
 | Property | Type | Description |
 |----------|------|-------------|
 | `Category` | integer | Page category. Always `0` |
-| `Color` | string | Background color as space-separated hex pairs (e.g., `19 19 19` for dark) |
+| `Color` | string | Background color as space-separated hex pairs (e.g., `19 19 19` for dark). Optional — omit for no background color |
+| `DisplayInRemoteUI` | bool | Optional. Set to `false` to hide page from Indigo Touch and web clients. Defaults to `true` if omitted |
 | `ID` | integer | Unique page ID. Generate with `python3 -c "import random; print(random.randint(100000000, 2147483647))"` |
-| `ImageFileName` | string | Optional background image filename. Empty string for solid color |
+| `ImageFileName` | string | Optional background image from `Web Assets/images/backgrounds/`. Empty string or omit for solid color |
 | `Name` | string | Display name shown in Indigo's Control Pages list |
 | `ObjVers` | integer | Object version. Always `5` |
 | `Size` | string | Page dimensions as `"width height"` (e.g., `"375 667"`) |
@@ -56,9 +57,28 @@ Multiple pages can be included in a single list for batch import.
 | iPad Landscape | `1024 768` | Tablet landscape |
 | Full HD | `1920 1080` | Desktop / large display |
 
-## Background Images
+## Backgrounds
 
-Available from `Web Assets/images/backgrounds/`:
+### Solid Color Background
+
+Set the `Color` property to a space-separated hex pair. Omit `ImageFileName` or set it to `""`.
+
+```xml
+<Color type="string">19 19 19</Color>
+```
+
+Common background colors:
+
+| Color | Value | Use Case |
+|-------|-------|----------|
+| Dark (default) | `19 19 19` | Standard Indigo dark theme |
+| Slightly lighter | `2A 2A 2A` | Better contrast with dark icons |
+| Light gray | `CA CA CA` | Light theme, good for camera pages |
+| Black | `00 00 00` | OLED-friendly |
+
+### Background Image
+
+Set `ImageFileName` to a filename from `Web Assets/images/backgrounds/`:
 
 | Filename | Description |
 |----------|-------------|
@@ -67,7 +87,23 @@ Available from `Web Assets/images/backgrounds/`:
 | `floorplan3.png` | Floor plan background 3 |
 | `indigo_logo.png` | Indigo logo |
 
-Use empty string `""` for no background image (solid color only).
+### No Background (Full-Screen Image Pages)
+
+For pages that display a full-screen external image (ControlType 101), both `Color` and `ImageFileName` can be omitted entirely. The external image element covers the page. This is the pattern used by camera feeds and timetable displays.
+
+```xml
+<!-- No Color or ImageFileName — the full-screen image IS the background -->
+<ControlPage type="dict">
+	<Category type="integer">0</Category>
+	<ID type="integer">1624687364</ID>
+	<Name type="string">Camera Feed</Name>
+	<ObjVers type="integer">5</ObjVers>
+	<Size type="string">1024 600</Size>
+	<PageElemList type="vector">
+		<!-- ControlType 101 element fills entire page -->
+	</PageElemList>
+</ControlPage>
+```
 
 ## Critical XML Format Notes
 

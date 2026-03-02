@@ -67,10 +67,14 @@ Every element on a control page is a `<PageElem type="dict">` inside the `<PageE
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ImageFileName` | string | `""` | Image name WITH `.png` extension (e.g., `Dimmable Light 2x.png`). State suffixes added automatically by Indigo |
+| `ImageFileURL` | string | — | External image `file:///` URL. Used with ControlType 101 **instead of** `ImageFileName`. See `docs/images/external-images.md` |
+| `ImageRefreshDuration` | integer | — | Auto-refresh interval in milliseconds. Used with `ImageFileURL` (e.g., `1000` = 1s, `30000` = 30s) |
 | `ShowStateImage` | bool | `false` | Show state-dependent image (e.g., on/off variant) |
 | `ShowStateText` | bool | `false` | Show device state as text overlay on the image |
 
 **Image state behavior**: When `ShowStateImage` is true, Indigo automatically looks for state-suffixed images. For example, `Dimmable Light 2x.png` resolves to `Dimmable Light 2x+on.png` when the light is on.
+
+**External images**: ControlType 101 elements use `ImageFileURL` with `file:///` paths to load images from the local filesystem. Combined with `ImageRefreshDuration`, this creates live-updating displays for cameras, album art, timetables, etc. See `docs/images/external-images.md` for full details and examples.
 
 ### Caption Properties
 

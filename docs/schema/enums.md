@@ -11,6 +11,7 @@ Element type determining behavior and rendering.
 | 1 | Device Control | Interactive device element (on/off, dimmer, thermostat) |
 | 2 | Variable/List | Variable display or list selection |
 | 100 | Button/Label | Static button or text label |
+| 101 | External Image | Image loaded from `file:///` URL with optional auto-refresh. See `docs/images/external-images.md` |
 | 200 | Text Display | Text-only display element |
 | 201 | Icon Indicator | Icon-based status indicator |
 
@@ -58,6 +59,16 @@ Colors are specified as space-separated hex pairs: `"RR GG BB"`
 | Dark gray | `33 33 33` | Dim/subtle text |
 | Black | `00 00 00` | Light background text |
 
+## HVACAction
+
+Action to perform on a thermostat (used in Class 3 actions).
+
+| Value | Action |
+|-------|--------|
+| 7 | Open thermostat control popup (observed in working examples) |
+
+> **Note:** Additional HVACAction values likely exist but have not been verified against working exports yet.
+
 ## DeviceAction
 
 Action to perform on a device (used in Class 1 actions).
@@ -100,6 +111,7 @@ Device state key to display. Which state property to monitor.
 | `setpointHeat` | Heating setpoint |
 | `hvacOperationMode` | Current HVAC mode |
 | `hvacFanMode` | Fan mode |
+| `heatIsOn` | Whether heating is currently active (used with Thermostat Heat Status image) |
 
 ### Sensor
 
