@@ -63,6 +63,63 @@ Ask: "I found these devices. Which room or area are we building a control page f
 
 Ask the user about their control page using **AskUserQuestion** tool.
 
+### Loading User Preferences
+
+Before asking questions, check if `control-pages.local.md` exists in the skill directory. If it doesn't exist, create it with the default content below, then read it:
+
+```yaml
+---
+# Screen presets (built-in + custom)
+screen_presets:
+  iPhone: "375 667"
+  iPhone Plus: "414 736"
+  iPad Portrait: "768 1024"
+  iPad Landscape: "1024 768"
+  Full HD: "1920 1080"
+  # Add custom presets here:
+  # Wall Tablet: "1920 1080"
+
+default_screen: "iPhone"
+
+# Style: minimal | dashboard | full-control
+default_style: "full-control"
+
+# Theme
+theme:
+  background: "19 19 19"
+  title_color: "FF FF FF"
+  label_color: "FF FF FF"
+  state_text_color: "DB DB DB"
+
+# Layout
+layout:
+  icon_size: "76 76"
+  caption_placement: omit   # omit = below icon (default), 4 = left of icon
+  retina: true               # always use 2x images
+
+# Typography
+fonts:
+  title_size: 22
+  title_font: 22             # bold
+  label_size: 14
+  state_text_size: 20
+---
+
+## Style Notes
+
+Any free-form notes about your preferences go here.
+For example: "Always use dark theme for room controls, light for camera pages."
+```
+
+Once the config is loaded, apply saved defaults:
+
+1. For each question below, check if the config has a default value
+2. If a default exists, use it and tell the user: "Using your default: **X**"
+3. If no default exists, ask the question as normal
+4. After applying defaults, offer: "Using your saved preferences. Say **'change'** to adjust any setting."
+
+This makes repeat usage much faster — the user only answers questions that don't have saved defaults.
+
 ### Question 1: Room/Purpose
 
 ```
@@ -107,8 +164,10 @@ Options:
 If user provides enough context upfront (e.g., "Create a control page for the living room with the ceiling light, floor lamp, and thermostat on iPhone"), skip questions and use:
 - Room: from user input
 - Devices: from user input (match names to discovered devices)
-- Screen: iPhone 375x667
-- Style: Dashboard
+- Screen: from config `default_screen` if set, otherwise iPhone 375x667
+- Style: from config `default_style` if set, otherwise Dashboard
+
+With a config file, Quick Mode becomes even faster — the user can just say "build bedroom page" and everything else comes from saved preferences.
 
 ### Defaults for Beginners
 
@@ -324,3 +383,47 @@ Create a `.textClipping` file for drag-and-drop import into Indigo.
 ### Reference Docs
 
 Load `docs/export/clipping-export.md` during EXPORT phase.
+
+---
+
+## User Preferences
+
+Preferences are stored in `control-pages.local.md` at the skill root. This file is gitignored (user-specific).
+
+### Format
+
+YAML frontmatter for structured settings, plus optional markdown prose for free-form style notes:
+
+```yaml
+---
+default_screen: "iPhone"
+default_style: "full-control"
+theme:
+  background: "19 19 19"
+  title_color: "FF FF FF"
+# ... more settings
+---
+
+## Style Notes
+Free-form notes here.
+```
+
+### Available Settings
+
+| Key | Values | Effect |
+|-----|--------|--------|
+| `default_screen` | Name from `screen_presets` | Skips screen size question |
+| `default_style` | `minimal`, `dashboard`, `full-control` | Skips style question |
+| `screen_presets` | Map of name → "W H" | Custom screen sizes |
+| `theme.*` | Color values | Page colors |
+| `layout.icon_size` | "W H" | Icon dimensions |
+| `layout.caption_placement` | `omit` or `4` | Label position |
+| `layout.retina` | `true`/`false` | 2x image selection |
+| `fonts.*` | Size/font values | Typography |
+
+### How Preferences Apply
+
+- **Phase 2**: Config defaults skip questions (user notified, can override)
+- **Phase 3**: Layout uses config icon size, spacing, retina setting
+- **Phase 4**: BUILD uses config theme colors, fonts, caption placement
+- **Quick Mode**: Merges config defaults with user-provided context
