@@ -10,6 +10,12 @@ Guided builder for Indigo home automation Control Pages. Designs layouts
 with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 .textClipping files.
 
+## User Preferences
+
+On skill load, read `control-pages.local.md` (in this skill's directory) if it exists. This file contains YAML frontmatter with user defaults for screen size, style, theme, and layout. Use these defaults in Phase 2 instead of asking questions — tell the user which defaults are being applied and offer to override.
+
+If the file doesn't exist, ask all questions as normal.
+
 ## CRITICAL: Context Optimization Strategy
 
 **DO NOT load all files.** Load docs selectively based on current workflow phase.
@@ -18,7 +24,7 @@ with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 
 | Current Phase | Load These Files |
 |---------------|-----------------|
-| Starting (any request) | `docs/workflow.md` |
+| Starting (any request) | `docs/workflow.md`, `control-pages.local.md` (if exists) |
 | DISCOVER (finding devices) | `docs/workflow.md` (Phase 1 section) |
 | PLAN (asking questions) | `docs/workflow.md` (Phase 2 section), `docs/layouts/sizing.md` |
 | WIREFRAME (designing layout) | `docs/layouts/templates.md`, `docs/layouts/sizing.md` |
@@ -43,6 +49,7 @@ with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 | "Variable images?" | `docs/images/variable-images.md` |
 | "External images?" / "Camera feed" / "Auto-refresh image" | `docs/images/external-images.md` |
 | "Plugin actions?" / "Sonos controls" | `docs/schema/actions.md` (Class 999) |
+| "What are my preferences?" | `control-pages.local.md` |
 
 ## Workflow Overview
 

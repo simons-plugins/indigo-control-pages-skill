@@ -23,7 +23,7 @@ Page padding:       30px (left/right), 20px (top)
 Element spacing:    90px vertical between rows, 20px horizontal gap
 Icon size:          76x76 (2x retina images)
                     38x38 (1x standard images)
-Label offset:       CaptionPlacement 4 (below image)
+Label offset:       CaptionPlacement omit (below image, default) or 4 (left of icon)
 Title height:       30px
 Title margin:       20px below title before first element row
 ```
@@ -134,4 +134,5 @@ Col 4 icon X = 30 + 3×(226+20) + (226/2) - 38 = 843
 4. **Consistent spacing**: Use the same vertical gap (90px) between all rows
 5. **Align columns**: Icons in the same column should share the same X position
 6. **State text below icon**: For Dashboard style, state text appears centered below the icon when ShowStateText is true
-7. **Caption below state text**: With CaptionPlacement 4, the label appears below the icon/state text area
+7. **Caption below state text**: With CaptionPlacement omit (default), the label appears below the icon/state text area. CaptionPlacement 4 places the label to the left of the icon.
+8. **Custom presets**: Users can add custom screen presets in `control-pages.local.md` (see User Preferences in workflow.md)
