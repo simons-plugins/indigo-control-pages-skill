@@ -65,7 +65,53 @@ Ask the user about their control page using **AskUserQuestion** tool.
 
 ### Loading User Preferences
 
-Before asking questions, check if `control-pages.local.md` exists in the skill directory. If it does, read the YAML frontmatter for saved defaults:
+Before asking questions, check if `control-pages.local.md` exists in the skill directory. If it doesn't exist, create it with the default content below, then read it:
+
+```yaml
+---
+# Screen presets (built-in + custom)
+screen_presets:
+  iPhone: "375 667"
+  iPhone Plus: "414 736"
+  iPad Portrait: "768 1024"
+  iPad Landscape: "1024 768"
+  Full HD: "1920 1080"
+  # Add custom presets here:
+  # Wall Tablet: "1920 1080"
+
+default_screen: "iPhone"
+
+# Style: minimal | dashboard | full-control
+default_style: "full-control"
+
+# Theme
+theme:
+  background: "19 19 19"
+  title_color: "FF FF FF"
+  label_color: "FF FF FF"
+  state_text_color: "DB DB DB"
+
+# Layout
+layout:
+  icon_size: "76 76"
+  caption_placement: omit   # omit = below icon (default), 4 = left of icon
+  retina: true               # always use 2x images
+
+# Typography
+fonts:
+  title_size: 22
+  title_font: 22             # bold
+  label_size: 14
+  state_text_size: 20
+---
+
+## Style Notes
+
+Any free-form notes about your preferences go here.
+For example: "Always use dark theme for room controls, light for camera pages."
+```
+
+Once the config is loaded, apply saved defaults:
 
 1. For each question below, check if the config has a default value
 2. If a default exists, use it and tell the user: "Using your default: **X**"

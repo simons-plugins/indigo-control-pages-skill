@@ -12,9 +12,7 @@ with ASCII wireframes, generates valid Indigo XML, and exports ready-to-import
 
 ## User Preferences
 
-On skill load, read `control-pages.local.md` (in this skill's directory) if it exists. This file contains YAML frontmatter with user defaults for screen size, style, theme, and layout. Use these defaults in Phase 2 instead of asking questions — tell the user which defaults are being applied and offer to override.
-
-If the file doesn't exist, ask all questions as normal.
+On skill load, read `control-pages.local.md` (in this skill's directory). If it doesn't exist, create it with the default content shown in `docs/workflow.md` (User Preferences section). This file contains YAML frontmatter with user defaults for screen size, style, theme, and layout. Use these defaults in Phase 2 instead of asking questions — tell the user which defaults are being applied and offer to override.
 
 ## CRITICAL: Context Optimization Strategy
 
