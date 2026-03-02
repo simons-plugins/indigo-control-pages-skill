@@ -1,7 +1,7 @@
 # Indigo Control Page Builder
 
 **Repository**: https://github.com/simons-plugins/indigo-control-pages-skill
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Slash command**: `/control-page`
 
 ## Description
